@@ -3,7 +3,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import HomeScreen from './screens/HomeScreen';
-import GameScreen from './screens/GameScreen';
+import ClassicMode from './screens/ClassicMode';
+import ZenMode from './screens/ZenMode';
+import ModeSelectScreen from  './screens/ModeSelectScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -17,9 +20,19 @@ export default function App() {
             component={HomeScreen}
             options={{ title: "title" }}
             />
+             <Stack.Screen
+            name="Mode"
+            component={ModeSelectScreen}
+            options={{ title: "select game mode" }}
+            />
+              <Stack.Screen
+            name="ClassicMode"
+            component={ClassicMode}
+            options={{ title: "play" }}
+            />
             <Stack.Screen
-            name="Game"
-            component={GameScreen}
+            name="ZenMode"
+            component={ZenMode}
             options={{ title: "play" }}
             />
         </Stack.Navigator>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import CircularLetterArrangement from "../components/LetterArrangement";
-import WordGrid from "../components/grid"; // Ensure the correct import
+import WordGrid from "../components/grid"; 
 
-const GameScreen = () => {
-  const [level, setLevel] = useState(1); // Start at Level 1
+const ZenMode = () => {
+  const [level, setLevel] = useState(1); // Starts at Level 1
   const [letters, setLetters] = useState([]);
   const [baseWord, setBaseWord] = useState("");
   const [wordsToFind, setWordsToFind] = useState([]);
@@ -18,7 +18,7 @@ const GameScreen = () => {
   // Fetch a 5-letter word from Datamuse API
   const fetchWord = async () => {
     try {
-      const response = await fetch("https://api.datamuse.com/words?sp=?????&max=50");
+      const response = await fetch("https://api.datamuse.com/words?sp=?????&max=50"); // Datamuse API Key
       const data = await response.json();
 
       const words = data
@@ -229,4 +229,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GameScreen;
+export default ZenMode;

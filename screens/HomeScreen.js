@@ -1,24 +1,21 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Image} from "react-native";
 
-//add custom background image
+//Add custom background image
 const backgroundImage = require("../assets/title-screen-bg.jpg"); 
+const logoImage = require("../assets/logo.jpg");
 
 const HomeScreen = ({ navigation }) => {
   return (
     <ImageBackground source={backgroundImage} style={styles.background}>
+
+    <Image source={logoImage} style={styles.logo}></Image>
+
       <View style={styles.container}>
-        <TouchableOpacity style={styles.appNameButton}>
-          <Text style={styles.buttonText}>app name</Text>
-        </TouchableOpacity>
-
-        <View style={styles.logoContainer}>
-          <Text style={styles.logoText}>logo</Text>
-        </View>
-
+        
         <TouchableOpacity 
           style={styles.playButton} 
-          onPress={() => navigation.navigate("Game")}
+          onPress={() => navigation.navigate("Mode")}
         >
           <Text style={styles.buttonText}>play</Text>
         </TouchableOpacity>
@@ -46,26 +43,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  appNameButton: {
-    backgroundColor: "#6a79c4",
-    paddingVertical: 10,
-    paddingHorizontal: 40,
-    borderRadius: 20,
-    marginBottom: 20,
-  },
-  logoContainer: {
-    width: 120,
-    height: 120,
-    backgroundColor: "#6a79c4",
-    borderRadius: 60,
+  logo: {
+    flex: 1,
+    width: null,
+    height: 200,
+    resizeMode: "contain",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
-  },
-  logoText: {
-    color: "white",
-    fontSize: 20,
-    fontWeight: "bold",
+    paddingHorizontal: 50,
+    paddingTop: 160,
   },
   playButton: {
     backgroundColor: "#6a79c4",
