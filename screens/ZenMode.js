@@ -18,12 +18,12 @@ const ZenMode = () => {
   // Fetch a 5-letter word from Datamuse API
   const fetchWord = async () => {
     try {
-      const response = await fetch("https://api.datamuse.com/words?sp=?????&max=50"); // Datamuse API Key
+      const response = await fetch("https://api.datamuse.com/words?sp=?????&max=100"); // Datamuse API Key
       const data = await response.json();
 
       const words = data
-        .map((item) => item.word.toUpperCase())
-        .filter((word) => word.length === 5);
+        .map((item) => item.word.toUpperCase()) // Convert the letters to uppercase
+        .filter((word) => word.length === 5); // Keeps only 5 letter words
 
       if (words.length > 0) {
         const randomWord = words[Math.floor(Math.random() * words.length)];

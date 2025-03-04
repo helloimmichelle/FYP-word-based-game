@@ -24,14 +24,16 @@ const ModeSelectScreen = () => {
       {/* Classic Mode Button */}
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("ClassicMode")}>
         <Text style={styles.buttonText}>classic mode</Text>
-        <Text style={styles.description}>solve puzzles in each level and progress in difficulty</Text>
       </TouchableOpacity>
+
+      <Text style={styles.description}>connect to find words and complete levels.</Text>
 
       {/* Zen Mode Button */}
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("ZenMode")}>
         <Text style={styles.buttonText}>zen mode</Text>
-        <Text style={styles.description}>no pressure here{"\n"}play endlessly for the vibes</Text>
       </TouchableOpacity>
+
+      <Text style={styles.description}>endless play.{"\n"}connect the letters to find the complete word.</Text>
 
       {/* Instructions Modal */}
       <Modal visible={modalVisible} animationType="slide" transparent>
@@ -72,7 +74,6 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 25,
-    marginBottom: 15,
     alignItems: "center",
     width: "80%",
   },
@@ -82,10 +83,11 @@ const styles = StyleSheet.create({
     color: "white",
   },
   description: {
-    fontSize: 12,
-    color: "white",
+    fontSize: 11,
+    fontWeight: 'bold',
+    color: "#333",
     textAlign: "center",
-    marginTop: 5,
+    paddingVertical: 15,
   },
   helpButton: {
     position: "absolute",
