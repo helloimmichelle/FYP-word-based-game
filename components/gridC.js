@@ -15,20 +15,22 @@ const ClassicGrid = ({ wordGrid }) => {
 
 const styles = StyleSheet.create({
   wordGrid: {
-    flexDirection: "column",
-    alignItems: "center",
-    marginVertical: 20,
+    flexDirection: "row", // Arrange words in a row
+    flexWrap: "wrap", // Allow wrapping if needed
+    justifyContent: "center",
+    marginVertical: 10,
   },
   gridWord: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: "bold",
     backgroundColor: "#fff",
-    padding: 10,
-    margin: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 10, // Dynamic padding for different word lengths
+    margin: 4,
     textAlign: "center",
     borderRadius: 5,
-    width: 80,
     textTransform: "uppercase",
+    alignSelf: "flex-start", // Make each word fit its content
   },
 });
 

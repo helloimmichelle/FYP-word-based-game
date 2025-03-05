@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import LetterArrangementC from "../components/LetterArrangmentC";
-import ClassicGrid from "../components/ClassicGrid";
+import ClassicGrid from "../components/gridC";
 
 const levels = [
   { word: "SHINE", wordsToFind: ["SHINE", "HEN", "SHE"] }, // level 1
@@ -72,15 +72,34 @@ const ClassicMode = () => {
 
   return (
     <View style={styles.container}>
+
+      {/* Top Menu */}
+    <View style={styles.topMenu}>
+      <TouchableOpacity>
+        <Text style={styles.icon}></Text>
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Text style={styles.icon}></Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.coinsButton}>
+        <Text style={styles.coinsText}>$ coins</Text>
+      </TouchableOpacity>
+    </View>
+
       <Text style={styles.levelText}>Level {level + 1}</Text>
       
+      {/* Word Grid */}
       <ClassicGrid wordGrid={foundWords} />
+
+      {/* Formed Word Display */}
       <View style={styles.formedWordBox}>
         <Text style={styles.formedWordText}>{selectedLetters}</Text>
       </View>
 
+       {/* Circular Letter Arrangement */}
       <LetterArrangementC letters={shuffleLetters} onLetterSelect={handleLetterSelect} />
 
+      {/* Bottom Buttons */}
       <View style={styles.bottomButtons}>
         <TouchableOpacity style={styles.smallButton} onPress={handleShuffle}>
           <Text style={styles.buttonText}>Shuffle</Text>
@@ -103,10 +122,28 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     backgroundColor: "#cfe2f3",
   },
-  levelText: {
-    fontSize: 20,
+  topMenu: {
+    flexDirection: "row",
+    width: "90%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  coinsButton: {
+    backgroundColor: "#6a79c4",
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    borderRadius: 15,
+  },
+  coinsText: {
+    color: "white",
     fontWeight: "bold",
-    marginBottom: 10,
+  },
+  levelText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 15,
   },
   formedWordBox: {
     backgroundColor: "#6a79c4",

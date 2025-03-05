@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import Svg, { Line } from "react-native-svg";
 import { PanGestureHandler, State } from "react-native-gesture-handler";
 
-const LetterArrangement = ({ letters, onLetterSelect, targetWord }) => {
+const LetterArrangementZ = ({ letters, onLetterSelect, targetWord }) => {
   const [selectedLetters, setSelectedLetters] = useState([]); // Track selected letters
   const radius = 100;
   const centerX = 150;
@@ -127,4 +127,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LetterArrangement;
+export default LetterArrangementZ;

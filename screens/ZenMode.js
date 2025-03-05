@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import CircularLetterArrangement from "../components/LetterArrangement";
-import WordGrid from "../components/grid"; 
+import CircularLetterArrangement from "../components/LetterArrangementZ";
+import WordGrid from "../components/gridZ"; 
 
 const ZenMode = () => {
   const [level, setLevel] = useState(1); // Starts at Level 1

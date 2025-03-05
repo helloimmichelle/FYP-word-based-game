@@ -23,7 +23,7 @@ export default function App() {
              <Stack.Screen
             name="Mode"
             component={ModeSelectScreen}
-            options={{ title: "select game mode" }}
+            options={{ title: "game mode" }}
             />
               <Stack.Screen
             name="ClassicMode"

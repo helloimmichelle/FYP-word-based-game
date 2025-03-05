@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Dimensions } from "react-native";
 
 const screenWidth = Dimensions.get("window").width;
 
-const WordGrid = ({ wordsToFind = [], foundWords = [] }) => {
+const ZenGrid = ({ wordsToFind = [], foundWords = [] }) => {
   return (
     <View style={styles.gridContainer}>
       {wordsToFind.map((word, index) => (
@@ -41,4 +41,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WordGrid;
+export default ZenGrid;
