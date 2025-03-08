@@ -4,24 +4,32 @@ import LetterArrangementC from "../components/LetterArrangmentC";
 import ClassicGrid from "../components/gridC";
 
 const levels = [
-  { word: "SHINE", wordsToFind: ["SHINE", "HEN", "SHE"] }, // level 1
-  { word: "PLANT", wordsToFind: ["PLANT", "ANT", "TAN"] }, // level 2
-  { word: "DREAM", wordsToFind: ["DREAM", "ARM", "MAD", "MARE"] }, // level 3
-  { word: "PEACE", wordsToFind: ["PEACE", "PEA", "ACE", "APE"] }, // level 4
-  { word: "CLOUD", wordsToFind: ["CLOUD", "CUD", "OLD", "COD"] },
-  { word: "FRUIT", wordsToFind: ["FIT", "RUT", "TUI"] },
-  { word: "SMILE", wordsToFind: ["SMILE", "MILE", "SIM", "LIE", "MIL"] },
-  { word: "TABLE", wordsToFind: ["BAT", "TAB", "ALE"] },
-  { word: "DRINK", wordsToFind: ["INK", "RID", "KIN"] },
-  { word: "STONE", wordsToFind: ["TON", "ONE", "SET"] },
+  { word: "QUIET", wordsToFind: ["QUIET", "QUE", "QUI"," QUIT", "QUITE"], minWordsToPass: 2 }, 
+  { word: "CLOUD", wordsToFind: ["CLOUD", "CUD", "OLD", "COD", "COLD", "DOC"], minWordsToPass: 2 }, 
+  { word: "SHINE", wordsToFind: ["SHINE", "HEN", "SHE","HENS", "HINES", "SHIN"], minWordsToPass: 3 }, 
+  { word: "SMILE", wordsToFind: ["SMILE", "MILE", "LIME", "SLIM", "SIM", "LIE", "MIL", "ELM"], minWordsToPass: 4 }, 
+  { word: "PEACE", wordsToFind: ["PEACE", "PEA", "ACE", "APE", "CAP", "PEE", "PAC", "CAPE", "PACE"], minWordsToPass: 5 }, 
+  { word: "FLORA", wordsToFind: ["FLORA", "FOR", "FAR", "OAR", "OAF", "FAR", "LOAF", "FOAL", "ORAL"], minWordsToPass: 5}, 
+  { word: "STARS", wordsToFind: ["STARS", "ART", "SAT", "RAT", "TAR", "SAR", "RATS", "TARS", "SASS"], minWordsToPass: 6 }, 
+  { word: "PLANT", wordsToFind: ["PLANT", "ANT", "TAN","PAN", "LAP", "PANT", "PAT", "TAP", "PLAN", "PANT","ALT"], minWordsToPass: 6 }, 
+  { word: "CLEAR", wordsToFind: ["CLEAR", "CAR", "EAR","ARC", "ARE", "ACE", "ERA", "REC", "CARE", "LACE", "RACE", "REAL", "ACRE"], minWordsToPass: 7 }, 
+  { word: "DREAM", wordsToFind: ["DREAM", "DARE", "DAME", "READ", "MARE", "MADE", "DEAR", "MEAD", "RED", "RAM","DAM", "ARM", "ARE"], minWordsToPass: 7 }, 
 ];
+
+const MAX_HINTS = 3; // Limit hints per level
 
 const ClassicMode = () => {
   const [level, setLevel] = useState(0);
   const [foundWords, setFoundWords] = useState([]);
   const [selectedLetters, setSelectedLetters] = useState("");
   const [shuffleLetters, setShuffleLetters] = useState([]);
-  
+  const [hintsLeft, setHintsLeft] = useState(MAX_HINTS);
+  const [hintWord, setHintWord] = useState(null);
+
+  useEffect(() => {
+    setHintsLeft(MAX_HINTS); // Reset hints for new level
+    setHintWord(null); // Clear hint when starting a new level
+  }, [level]);
 
   useEffect(() => {
     setShuffleLetters(shuffleArray(levels[level].word.split("")));
@@ -32,11 +40,15 @@ const ClassicMode = () => {
   };
 
   const handleWordSubmit = () => {
-    if (levels[level].wordsToFind.includes(selectedLetters) && !foundWords.includes(selectedLetters)) {
-      setFoundWords([...foundWords, selectedLetters]);
+    const currentLevel = levels[level];
+  
+    if (currentLevel.wordsToFind.includes(selectedLetters) && !foundWords.includes(selectedLetters)) {
+      const updatedFoundWords = [...foundWords, selectedLetters];
+      setFoundWords(updatedFoundWords);
       setSelectedLetters("");
-
-      if (foundWords.length + 1 === levels[level].wordsToFind.length) {
+  
+      // Check if enough words have been found to pass the level
+      if (updatedFoundWords.length >= currentLevel.minWordsToPass) {
         handleLevelComplete();
       }
     } else {
@@ -59,6 +71,22 @@ const ClassicMode = () => {
       ]);
     } else {
       Alert.alert("Congratulations!", "You've completed all levels!");
+    }
+  };
+
+  const handleHint = () => {
+    if (hintsLeft > 0) {
+      const remainingWords = levels[level].wordsToFind.filter(word => !foundWords.includes(word));
+      
+      if (remainingWords.length > 0) {
+        const hint = remainingWords[0]; // Pick the first unfound word
+        setHintWord(hint[0] + " _".repeat(hint.length - 1)); // Show first letter only
+        setHintsLeft(hintsLeft - 1);
+      } else {
+        Alert.alert("No hints available", "You've found all words!");
+      }
+    } else {
+      Alert.alert("No hints left", "Try finding a word yourself!");
     }
   };
 
@@ -87,6 +115,18 @@ const ClassicMode = () => {
     </View>
 
       <Text style={styles.levelText}>Level {level + 1}</Text>
+
+       {/* Hint Display */}
+       {hintWord && (
+        <View style={styles.hintBox}>
+          <Text style={styles.hintText}>Hint: {hintWord}</Text>
+        </View>
+      )}
+
+      {/* Hint Button */}
+      <TouchableOpacity style={styles.hintButton} onPress={handleHint}>
+        <Text style={styles.buttonText}>Hint ({hintsLeft})</Text>
+      </TouchableOpacity>
       
       {/* Word Grid */}
       <ClassicGrid wordGrid={foundWords} />
@@ -110,6 +150,8 @@ const ClassicMode = () => {
         <TouchableOpacity style={styles.smallButton} onPress={() => setSelectedLetters("")}>
           <Text style={styles.buttonText}>Reset</Text>
         </TouchableOpacity>
+
+        
       </View>
     </View>
   );
@@ -175,6 +217,22 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
   },
+  hintBox: { 
+    backgroundColor: "#f4c542", 
+    padding: 10, 
+    borderRadius: 5, 
+    marginBottom: 10 
+  },
+  hintText: { 
+    fontSize: 16, 
+    fontWeight: "bold" 
+  },
+  hintButton: { 
+    backgroundColor: "#6a79c4", 
+    padding: 10, 
+    borderRadius: 5 
+  },
+
 });
 
 export default ClassicMode;

@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, Modal, ImageBackground, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
 const ModeSelectScreen = () => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
+  const backgroundImage = require("../assets/title-screen-bg.jpg"); 
 
   return (
+
+    <ImageBackground source={backgroundImage} style={styles.background}>
+
     <View style={styles.container}>
       {/* Back Button */}
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
@@ -26,14 +30,14 @@ const ModeSelectScreen = () => {
         <Text style={styles.buttonText}>classic mode</Text>
       </TouchableOpacity>
 
-      <Text style={styles.description}>connect to find words and complete levels.</Text>
+      <Text style={styles.description}>progress through levels.{"\n"}connect letters to find words and complete levels.</Text>
 
       {/* Zen Mode Button */}
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("ZenMode")}>
         <Text style={styles.buttonText}>zen mode</Text>
       </TouchableOpacity>
 
-      <Text style={styles.description}>endless play.{"\n"}connect the letters to find the complete word.</Text>
+      <Text style={styles.description}>endless play.{"\n"}connect letters to find the complete word.</Text>
 
       {/* Instructions Modal */}
       <Modal visible={modalVisible} animationType="slide" transparent>
@@ -52,13 +56,18 @@ const ModeSelectScreen = () => {
         </View>
       </Modal>
     </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    resizeMode: "cover", // ensures image covers the entire screen
+  },
   container: {
     flex: 1,
-    backgroundColor: "#CBE2F5",
+    // backgroundColor: "#CBE2F5",
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 20,

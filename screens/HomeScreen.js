@@ -20,6 +20,13 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>play</Text>
         </TouchableOpacity>
 
+        <TouchableOpacity 
+          style={styles.breatheButton} 
+          onPress={() => navigation.navigate("Timer")}
+        >
+          <Text style={styles.buttonText}>breathe</Text>
+        </TouchableOpacity>
+
         <View style={styles.bottomButtons}>
           <TouchableOpacity style={styles.smallButton}>
             <Text style={styles.buttonText}>sound</Text>
@@ -46,17 +53,27 @@ const styles = StyleSheet.create({
   logo: {
     flex: 1,
     width: null,
-    height: 200,
+    height: 100,
     resizeMode: "contain",
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 50,
-    paddingTop: 160,
+    paddingTop: 100,
   },
   playButton: {
     backgroundColor: "#6a79c4",
+    gradientBegin: "#CFE4FE",
+    gradientEnd: "#6077C6",
+    gradientDirection: "horizontal",
     paddingVertical: 12,
     paddingHorizontal: 50,
+    borderRadius: 20,
+    marginBottom: 20,
+  },
+  breatheButton: {
+    backgroundColor: "#6a79c4",
+    paddingVertical: 12,
+    paddingHorizontal: 38,
     borderRadius: 20,
     marginBottom: 20,
   },

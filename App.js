@@ -6,6 +6,7 @@ import HomeScreen from './screens/HomeScreen';
 import ClassicMode from './screens/ClassicMode';
 import ZenMode from './screens/ZenMode';
 import ModeSelectScreen from  './screens/ModeSelectScreen';
+import BreatheTimer from './screens/BreatheScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -19,6 +20,11 @@ export default function App() {
             name="Home"
             component={HomeScreen}
             options={{ title: "title" }}
+            />
+            <Stack.Screen
+            name="Timer"
+            component={BreatheTimer}
+            options={{ title: "breathe timer" }}
             />
              <Stack.Screen
             name="Mode"
