@@ -13,11 +13,11 @@ const ModeSelectScreen = () => {
     <ImageBackground source={backgroundImage} style={styles.background}>
 
     <View style={styles.container}>
+      
       {/* Back Button */}
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Ionicons name="chevron-back" size={24} color="black" />
       </TouchableOpacity>
-
       {/* Help Button */}
       <TouchableOpacity style={styles.helpButton} onPress={() => setModalVisible(true)}>
         <Ionicons name="help-circle" size={28} color="black" />
@@ -50,7 +50,7 @@ const ModeSelectScreen = () => {
               - In Zen Mode, play freely with no time limits.{"\n"}
             </Text>
             <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
-              <Text style={styles.closeButtonText}>Got it!</Text>
+              <Text style={styles.closeButtonText}>got it</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -100,13 +100,13 @@ const styles = StyleSheet.create({
   },
   helpButton: {
     position: "absolute",
-    top: 50,
-    right: 20,
+    top: 100,
+    right: 30,
   },
   backButton: {
     position: "absolute",
-    top: 50,
-    left: 20,
+    top: 110,
+    left: 30,
   },
   modalOverlay: {
     flex: 1,

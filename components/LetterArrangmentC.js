@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#5a67d8",
+    backgroundColor: "#C6E3C8",
     justifyContent: "center",
     alignItems: "center",
     elevation: 5,
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   letter: {
     fontSize: 24,
-    color: "#fff",
+    color: "#1E1E1E",
     fontWeight: "bold",
   },
 });

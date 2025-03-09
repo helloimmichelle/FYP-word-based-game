@@ -1,30 +1,47 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import LetterArrangementC from "../components/LetterArrangmentC";
 import ClassicGrid from "../components/gridC";
 
+// 10 Levels with increasing words to find
 const levels = [
-  { word: "QUIET", wordsToFind: ["QUIET", "QUE", "QUI"," QUIT", "QUITE"], minWordsToPass: 2 }, 
-  { word: "CLOUD", wordsToFind: ["CLOUD", "CUD", "OLD", "COD", "COLD", "DOC"], minWordsToPass: 2 }, 
-  { word: "SHINE", wordsToFind: ["SHINE", "HEN", "SHE","HENS", "HINES", "SHIN"], minWordsToPass: 3 }, 
-  { word: "SMILE", wordsToFind: ["SMILE", "MILE", "LIME", "SLIM", "SIM", "LIE", "MIL", "ELM"], minWordsToPass: 4 }, 
+  { word: "QUIET", wordsToFind: ["QUIET", "QUE", "TIE", "QUI","QUIT", "QUITE"], minWordsToPass: 3 }, 
+  { word: "CLOUD", wordsToFind: ["CLOUD", "CUD", ,"LOUD", "OLD", "COD", "COLD", "DOC"], minWordsToPass: 3 }, 
+  { word: "SHINE", wordsToFind: ["SHINE", "HEN", "HIS", "SHE","HENS", "HINES", "SHIN", "SIN"], minWordsToPass: 4 }, 
+  { word: "SMILE", wordsToFind: ["SMILE", "SLIME", "MILES", "MILE", "LIME", "SLIM", "SIM", "LIE", "MIL", "ELM"], minWordsToPass: 4 }, 
   { word: "PEACE", wordsToFind: ["PEACE", "PEA", "ACE", "APE", "CAP", "PEE", "PAC", "CAPE", "PACE"], minWordsToPass: 5 }, 
   { word: "FLORA", wordsToFind: ["FLORA", "FOR", "FAR", "OAR", "OAF", "FAR", "LOAF", "FOAL", "ORAL"], minWordsToPass: 5}, 
-  { word: "STARS", wordsToFind: ["STARS", "ART", "SAT", "RAT", "TAR", "SAR", "RATS", "TARS", "SASS"], minWordsToPass: 6 }, 
-  { word: "PLANT", wordsToFind: ["PLANT", "ANT", "TAN","PAN", "LAP", "PANT", "PAT", "TAP", "PLAN", "PANT","ALT"], minWordsToPass: 6 }, 
-  { word: "CLEAR", wordsToFind: ["CLEAR", "CAR", "EAR","ARC", "ARE", "ACE", "ERA", "REC", "CARE", "LACE", "RACE", "REAL", "ACRE"], minWordsToPass: 7 }, 
-  { word: "DREAM", wordsToFind: ["DREAM", "DARE", "DAME", "READ", "MARE", "MADE", "DEAR", "MEAD", "RED", "RAM","DAM", "ARM", "ARE"], minWordsToPass: 7 }, 
+  { word: "STARS", wordsToFind: ["STARS", "STAR", "ART", "ARTS", "SAT", "RAT", "RATS", "TAR", "SAR", "RATS", "TARS", "SASS"], minWordsToPass: 6 }, 
+  { word: "PLANT", wordsToFind: ["PLANT", "ANT", "TAN","PAN", "LAP", "PAL", "PANT", "PAT", "TAP", "PLAN", "PANT","ALT"], minWordsToPass: 6 }, 
+  { word: "CLEAR", wordsToFind: ["CLEAR", "CAR", "EAR","ARC", "ARE", "ACE", "ALE", "EARL", "ERA", "REC", "CARE", "LACE", "RACE", "REAL", "ACRE"], minWordsToPass: 7 }, 
+  { word: "DREAM", wordsToFind: ["DREAM", "DARE", "DAME", "READ", "MARE", "MADE", "DEAR", "MEAD", "RED", "RAM","DAM", "MAD", "ARM", "ARE"], minWordsToPass: 8 }, 
 ];
 
 const MAX_HINTS = 3; // Limit hints per level
 
 const ClassicMode = () => {
+  const navigation = useNavigation();
+  const [coins, setCoins] = useState(0);
   const [level, setLevel] = useState(0);
   const [foundWords, setFoundWords] = useState([]);
   const [selectedLetters, setSelectedLetters] = useState("");
   const [shuffleLetters, setShuffleLetters] = useState([]);
   const [hintsLeft, setHintsLeft] = useState(MAX_HINTS);
   const [hintWord, setHintWord] = useState(null);
+
+  useEffect(() => {
+    // Load coins from storage when the game starts
+    const loadCoins = async () => {
+      const savedCoins = await AsyncStorage.getItem("coins");
+      if (savedCoins !== null) {
+        setCoins(parseInt(savedCoins));
+      }
+    };
+    loadCoins();
+  }, []);
 
   useEffect(() => {
     setHintsLeft(MAX_HINTS); // Reset hints for new level
@@ -52,25 +69,38 @@ const ClassicMode = () => {
         handleLevelComplete();
       }
     } else {
-      Alert.alert("Invalid Word", "Try again.");
+      Alert.alert("invalid word", "try again");
       setSelectedLetters("");
     }
   };
 
   const handleLevelComplete = () => {
     if (level < levels.length - 1) {
-      Alert.alert("Well done!", "Next level unlocked.", [
+      const newCoins = coins + 10;
+      setCoins(newCoins);
+      AsyncStorage.setItem("coins", newCoins.toString()); // Save coins
+      Alert.alert("all words found", "next level unlocked", [
         {
-          text: "OK",
+          text: "go",
           onPress: () => {
-            setLevel(level + 1);
+            setCoins(coins + 10); // Increase coins
+            setLevel(level + 1); // Increase level
             setFoundWords([]);
             setSelectedLetters("");
           },
         },
       ]);
     } else {
-      Alert.alert("Congratulations!", "You've completed all levels!");
+      Alert.alert(
+        "all levels complete",
+        "how would you like to be more at ease?",
+        [
+          { text: "Play Again", onPress: () => restartGame() },
+          { text: "Homescreen", onPress: () => navigateTo("HomeScreen") },
+          { text: "Select Another Mode", onPress: () => navigateTo("ModeSelect") },
+          { text: "Breathe", onPress: () => navigateTo("BreatheTimer") },
+        ]
+      );
     }
   };
 
@@ -86,7 +116,7 @@ const ClassicMode = () => {
         Alert.alert("No hints available", "You've found all words!");
       }
     } else {
-      Alert.alert("No hints left", "Try finding a word yourself!");
+      Alert.alert("No hints left", "Try finding a word yourself.");
     }
   };
 
@@ -101,8 +131,12 @@ const ClassicMode = () => {
   return (
     <View style={styles.container}>
 
-      {/* Top Menu */}
+    {/* Top Menu */}
     <View style={styles.topMenu}>
+       {/* Back Button */}
+       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <Ionicons name="chevron-back" size={24} color="black" />
+      </TouchableOpacity>
       <TouchableOpacity>
         <Text style={styles.icon}></Text>
       </TouchableOpacity>
@@ -110,11 +144,22 @@ const ClassicMode = () => {
         <Text style={styles.icon}></Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.coinsButton}>
-        <Text style={styles.coinsText}>$ coins</Text>
+        <Text style={styles.coinsText}>🪙{coins} coins</Text>
       </TouchableOpacity>
     </View>
 
       <Text style={styles.levelText}>Level {level + 1}</Text>
+      
+      {/* Word Grid */}
+      <ClassicGrid wordGrid={foundWords} />
+
+      {/* Formed Word Display */}
+      <View style={styles.formedWordBox}>
+        <Text style={styles.formedWordText}>{selectedLetters}</Text>
+      </View>
+
+       {/* Circular Letter Arrangement */}
+      <LetterArrangementC letters={shuffleLetters} onLetterSelect={handleLetterSelect} />
 
        {/* Hint Display */}
        {hintWord && (
@@ -127,17 +172,6 @@ const ClassicMode = () => {
       <TouchableOpacity style={styles.hintButton} onPress={handleHint}>
         <Text style={styles.buttonText}>Hint ({hintsLeft})</Text>
       </TouchableOpacity>
-      
-      {/* Word Grid */}
-      <ClassicGrid wordGrid={foundWords} />
-
-      {/* Formed Word Display */}
-      <View style={styles.formedWordBox}>
-        <Text style={styles.formedWordText}>{selectedLetters}</Text>
-      </View>
-
-       {/* Circular Letter Arrangement */}
-      <LetterArrangementC letters={shuffleLetters} onLetterSelect={handleLetterSelect} />
 
       {/* Bottom Buttons */}
       <View style={styles.bottomButtons}>
@@ -170,6 +204,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 20,
+    marginTop: 70,
   },
   coinsButton: {
     backgroundColor: "#6a79c4",

@@ -7,6 +7,7 @@ import ClassicMode from './screens/ClassicMode';
 import ZenMode from './screens/ZenMode';
 import ModeSelectScreen from  './screens/ModeSelectScreen';
 import BreatheTimer from './screens/BreatheScreen';
+import ShopScreen from './screens/ShopScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -15,7 +16,7 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
             <Stack.Screen
             name="Home"
             component={HomeScreen}
@@ -40,6 +41,11 @@ export default function App() {
             name="ZenMode"
             component={ZenMode}
             options={{ title: "play" }}
+            />
+            <Stack.Screen
+            name="Shop"
+            component={ShopScreen}
+            options={{ title: "shop" }}
             />
         </Stack.Navigator>
         </NavigationContainer>

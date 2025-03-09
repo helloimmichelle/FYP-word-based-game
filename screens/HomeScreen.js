@@ -1,18 +1,17 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Image} from "react-native";
-
-//Add custom background image
-const backgroundImage = require("../assets/title-screen-bg.jpg"); 
+const backgroundImage = require("../assets/title-screen-bg.jpg"); //Add custom background image
 const logoImage = require("../assets/logo.jpg");
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <ImageBackground source={backgroundImage} style={styles.background}>
+    <ImageBackground source={backgroundImage} style={styles.background}> 
 
     <Image source={logoImage} style={styles.logo}></Image>
 
       <View style={styles.container}>
         
+        {/* Selection Buttons */}
         <TouchableOpacity 
           style={styles.playButton} 
           onPress={() => navigation.navigate("Mode")}
@@ -27,11 +26,18 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.buttonText}>breathe</Text>
         </TouchableOpacity>
 
+        {/* Bottom Buttons */}
         <View style={styles.bottomButtons}>
+
+          {/* Sound */}
           <TouchableOpacity style={styles.smallButton}>
             <Text style={styles.buttonText}>sound</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.smallButton}>
+
+          {/* Shop */}
+          <TouchableOpacity style={styles.smallButton} 
+          onPress={() => navigation.navigate("Shop")}
+          >
             <Text style={styles.buttonText}>shop</Text>
           </TouchableOpacity>
         </View>

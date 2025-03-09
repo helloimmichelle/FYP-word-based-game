@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 import CircularLetterArrangement from "../components/LetterArrangementZ";
 import WordGrid from "../components/gridZ"; 
 
 const ZenMode = () => {
+  const navigation = useNavigation();
   const [level, setLevel] = useState(1); // Starts at Level 1
   const [letters, setLetters] = useState([]);
   const [baseWord, setBaseWord] = useState("");
@@ -122,8 +125,12 @@ const ZenMode = () => {
 
   return (
     <View style={styles.container}>
+      
       {/* Top Menu */}
       <View style={styles.topMenu}>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <Ionicons name="chevron-back" size={24} color="black" />
+      </TouchableOpacity>
         <TouchableOpacity>
           <Text style={styles.icon}></Text>
         </TouchableOpacity>
@@ -172,11 +179,12 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   topMenu: {
-    flexDirection: "row",
-    width: "90%",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
+      flexDirection: "row",
+      width: "90%",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 20,
+      marginTop: 70,
   },
   icon: {
     fontSize: 20,
@@ -208,6 +216,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  backButton: {
+    position: "absolute",
+    top: 5,
+    left: 5,
   },
   bottomButtons: {
     flexDirection: "row",
