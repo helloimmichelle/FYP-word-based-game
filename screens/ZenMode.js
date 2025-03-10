@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Alert, ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import CircularLetterArrangement from "../components/LetterArrangementZ";
 import WordGrid from "../components/gridZ"; 
 
 const ZenMode = () => {
   const navigation = useNavigation();
+  const [background, setBackground] = useState(null);
   const [level, setLevel] = useState(1); // Starts at Level 1
   const [letters, setLetters] = useState([]);
   const [baseWord, setBaseWord] = useState("");
@@ -15,8 +17,36 @@ const ZenMode = () => {
   const [currentSelection, setCurrentSelection] = useState("");
 
   useEffect(() => {
+    const loadBackground = async () => {
+      try {
+        const selectedBg = await AsyncStorage.getItem("selectedBackground");
+        if (selectedBg) {
+          console.log("Applying background:", selectedBg); // Debugging log
+          setBackground(getBackgroundImage(selectedBg));
+        }
+      } catch (error) {
+        console.log("Error loading background:", error);
+      }
+    };
+    loadBackground();
+  }, []);
+
+  useEffect(() => {
     fetchWord();
   }, [level]); // Fetch new words when level changes
+
+  const getBackgroundImage = (bgId) => {
+    switch (bgId) {
+      case "bg1":
+        return require("../assets/bg-1.jpg");
+      case "bg2":
+         return require("../assets/bg-2.jpg");
+      case "bg3":
+         return require("../assets/bg-3.jpg");
+      default:
+        return require("../assets/title-screen-bg.jpg"); // Add a default background
+    }
+  };
 
   // Fetch a 5-letter word from Datamuse API
   const fetchWord = async () => {
@@ -123,7 +153,11 @@ const ZenMode = () => {
     return [...array].sort(() => Math.random() - 0.5);
   };
 
+  
+
   return (
+    <ImageBackground source={background} style={styles.background}>
+
     <View style={styles.container}>
       
       {/* Top Menu */}
@@ -168,13 +202,17 @@ const ZenMode = () => {
         </TouchableOpacity>
       </View>
     </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  background: { 
+    flex: 1, 
+    resizeMode: "cover" 
+  },
   container: {
     flex: 1,
-    backgroundColor: "#cfe2f3",
     alignItems: "center",
     paddingTop: 40,
   },

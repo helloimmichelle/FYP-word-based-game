@@ -55,7 +55,7 @@ const BreathTimer = () => {
       </TouchableOpacity>
 
       {/* Top Text */}
-      <Text style={styles.title}>Breathe In... Breathe Out...</Text>
+      <Text style={styles.title}>breathe in... breathe out...</Text>
 
       {/* Animated Circle */}
       <Animated.View style={[styles.circleContainer, { transform: [{ scale }] }]}>
@@ -65,16 +65,16 @@ const BreathTimer = () => {
       </Animated.View>
 
       {/* Time Left Text (appears when timer starts) */}
-      {isBreathing && <Text style={styles.timerText}>Time Left: {timeLeft}s</Text>}
+      {isBreathing && <Text style={styles.timerText}>time left: {timeLeft}s</Text>}
 
       {/* Buttons */}
       {!isBreathing ? (
         <TouchableOpacity style={styles.startButton} onPress={startBreathing}>
-          <Text style={styles.buttonText}>Start</Text>
+          <Text style={styles.buttonText}>start</Text>
         </TouchableOpacity>
       ) : (
         <TouchableOpacity style={styles.endButton} onPress={stopBreathing}>
-          <Text style={styles.buttonText}>End Session</Text>
+          <Text style={styles.buttonText}>end session</Text>
         </TouchableOpacity>
       )}
 

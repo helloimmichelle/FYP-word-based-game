@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Image} from "react-native";
+
 const backgroundImage = require("../assets/title-screen-bg.jpg"); //Add custom background image
 const logoImage = require("../assets/logo.jpg");
 
@@ -68,9 +69,6 @@ const styles = StyleSheet.create({
   },
   playButton: {
     backgroundColor: "#6a79c4",
-    gradientBegin: "#CFE4FE",
-    gradientEnd: "#6077C6",
-    gradientDirection: "horizontal",
     paddingVertical: 12,
     paddingHorizontal: 50,
     borderRadius: 20,

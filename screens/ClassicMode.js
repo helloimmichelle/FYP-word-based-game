@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Alert, ImageBackground} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -24,6 +24,7 @@ const MAX_HINTS = 3; // Limit hints per level
 
 const ClassicMode = () => {
   const navigation = useNavigation();
+  const [background, setBackground] = useState(null);
   const [coins, setCoins] = useState(0);
   const [level, setLevel] = useState(0);
   const [foundWords, setFoundWords] = useState([]);
@@ -31,6 +32,21 @@ const ClassicMode = () => {
   const [shuffleLetters, setShuffleLetters] = useState([]);
   const [hintsLeft, setHintsLeft] = useState(MAX_HINTS);
   const [hintWord, setHintWord] = useState(null);
+  
+  useEffect(() => {
+    const loadBackground = async () => {
+      try {
+        const selectedBg = await AsyncStorage.getItem("selectedBackground");
+        if (selectedBg) {
+          console.log("Applying background:", selectedBg); // Debugging log
+          setBackground(getBackgroundImage(selectedBg));
+        }
+      } catch (error) {
+        console.log("Error loading background:", error);
+      }
+    };
+    loadBackground();
+  }, []);
 
   useEffect(() => {
     // Load coins from storage when the game starts
@@ -54,6 +70,19 @@ const ClassicMode = () => {
 
   const handleLetterSelect = (letter) => {
     setSelectedLetters((prev) => prev + letter);
+  };
+
+  const getBackgroundImage = (bgId) => {
+    switch (bgId) {
+      case "bg1":
+        return require("../assets/bg-1.jpg");
+      case "bg2":
+         return require("../assets/bg-2.jpg");
+      case "bg3":
+         return require("../assets/bg-3.jpg");
+      default:
+        return require("../assets/title-screen-bg.jpg"); // Add a default background
+    }
   };
 
   const handleWordSubmit = () => {
@@ -95,10 +124,10 @@ const ClassicMode = () => {
         "all levels complete",
         "how would you like to be more at ease?",
         [
-          { text: "Play Again", onPress: () => restartGame() },
-          { text: "Homescreen", onPress: () => navigateTo("HomeScreen") },
-          { text: "Select Another Mode", onPress: () => navigateTo("ModeSelect") },
-          { text: "Breathe", onPress: () => navigateTo("BreatheTimer") },
+          { text: "play again", onPress: () => restartGame() },
+          { text: "homescreen", onPress: () => navigateTo("HomeScreen") },
+          { text: "select mode", onPress: () => navigateTo("ModeSelect") },
+          { text: "breathe", onPress: () => navigateTo("BreatheTimer") },
         ]
       );
     }
@@ -113,10 +142,10 @@ const ClassicMode = () => {
         setHintWord(hint[0] + " _".repeat(hint.length - 1)); // Show first letter only
         setHintsLeft(hintsLeft - 1);
       } else {
-        Alert.alert("No hints available", "You've found all words!");
+        Alert.alert("no hints available", "you've found all words");
       }
     } else {
-      Alert.alert("No hints left", "Try finding a word yourself.");
+      Alert.alert("no hints left", "try finding a word yourself");
     }
   };
 
@@ -129,6 +158,8 @@ const ClassicMode = () => {
   };
 
   return (
+    <ImageBackground source={background} style={styles.background}>
+      
     <View style={styles.container}>
 
     {/* Top Menu */}
@@ -148,7 +179,7 @@ const ClassicMode = () => {
       </TouchableOpacity>
     </View>
 
-      <Text style={styles.levelText}>Level {level + 1}</Text>
+      <Text style={styles.levelText}>level {level + 1}</Text>
       
       {/* Word Grid */}
       <ClassicGrid wordGrid={foundWords} />
@@ -164,39 +195,44 @@ const ClassicMode = () => {
        {/* Hint Display */}
        {hintWord && (
         <View style={styles.hintBox}>
-          <Text style={styles.hintText}>Hint: {hintWord}</Text>
+          <Text style={styles.hintText}>hint: {hintWord}</Text>
         </View>
       )}
 
       {/* Hint Button */}
       <TouchableOpacity style={styles.hintButton} onPress={handleHint}>
-        <Text style={styles.buttonText}>Hint ({hintsLeft})</Text>
+        <Text style={styles.buttonText}>hint ({hintsLeft})</Text>
       </TouchableOpacity>
 
       {/* Bottom Buttons */}
       <View style={styles.bottomButtons}>
         <TouchableOpacity style={styles.smallButton} onPress={handleShuffle}>
-          <Text style={styles.buttonText}>Shuffle</Text>
+          <Text style={styles.buttonText}>shuffle</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.smallButton} onPress={handleWordSubmit}>
-          <Text style={styles.buttonText}>Submit</Text>
+          <Text style={styles.buttonText}>submit</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.smallButton} onPress={() => setSelectedLetters("")}>
-          <Text style={styles.buttonText}>Reset</Text>
+          <Text style={styles.buttonText}>reset</Text>
         </TouchableOpacity>
 
         
       </View>
     </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  background: { 
+    flex: 1, 
+    resizeMode: "cover" 
+  },
   container: {
     flex: 1,
     alignItems: "center",
     paddingTop: 40,
-    backgroundColor: "#cfe2f3",
+    // backgroundColor: "#cfe2f3",
   },
   topMenu: {
     flexDirection: "row",
@@ -253,9 +289,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   hintBox: { 
-    backgroundColor: "#f4c542", 
+    backgroundColor: "#e8bcf0", 
     padding: 10, 
-    borderRadius: 5, 
+    borderRadius: 15, 
     marginBottom: 10 
   },
   hintText: { 
@@ -265,7 +301,7 @@ const styles = StyleSheet.create({
   hintButton: { 
     backgroundColor: "#6a79c4", 
     padding: 10, 
-    borderRadius: 5 
+    borderRadius: 10 
   },
 
 });
