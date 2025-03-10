@@ -174,7 +174,7 @@ const ClassicMode = () => {
       <TouchableOpacity>
         <Text style={styles.icon}></Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.coinsButton}>
+      <TouchableOpacity style={styles.coinsButton} onPress={() => navigation.navigate("Shop")}>
         <Text style={styles.coinsText}>🪙{coins} coins</Text>
       </TouchableOpacity>
     </View>

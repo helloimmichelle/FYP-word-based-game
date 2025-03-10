@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   },
   letter: {
     fontSize: 24,
-    color: "#1E1E1E",
+    color: "#333",
     fontWeight: "bold",
   },
 });

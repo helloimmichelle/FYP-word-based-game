@@ -1,44 +1,64 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Image} from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Image } from "react-native";
+import { Audio } from "expo-av";
 
-const backgroundImage = require("../assets/title-screen-bg.jpg"); //Add custom background image
+const backgroundImage = require("../assets/title-screen-bg.jpg"); // Add custom background image
 const logoImage = require("../assets/logo.jpg");
 
 const HomeScreen = ({ navigation }) => {
+  const [sound, setSound] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    loadSound();
+    return () => {
+      if (sound) {
+        sound.unloadAsync();
+      }
+    };
+  }, []);
+
+  const loadSound = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require("../assets/11pm-acnl.mp3"), // Add music file
+      { isLooping: true }
+    );
+    setSound(sound);
+  };
+
+  const toggleSound = async () => { //Toggle sound playing 
+    if (sound) {
+      if (isPlaying) {
+        await sound.pauseAsync();
+      } else {
+        await sound.playAsync();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
   return (
-    <ImageBackground source={backgroundImage} style={styles.background}> 
-
-    <Image source={logoImage} style={styles.logo}></Image>
-
+    <ImageBackground source={backgroundImage} style={styles.background}>
+      <Image source={logoImage} style={styles.logo} />
       <View style={styles.container}>
-        
         {/* Selection Buttons */}
-        <TouchableOpacity 
-          style={styles.playButton} 
-          onPress={() => navigation.navigate("Mode")}
-        >
+        <TouchableOpacity style={styles.playButton} onPress={() => navigation.navigate("Mode")}>
           <Text style={styles.buttonText}>play</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
-          style={styles.breatheButton} 
-          onPress={() => navigation.navigate("Timer")}
-        >
+        <TouchableOpacity style={styles.breatheButton} onPress={() => navigation.navigate("Timer")}>
           <Text style={styles.buttonText}>breathe</Text>
         </TouchableOpacity>
 
         {/* Bottom Buttons */}
         <View style={styles.bottomButtons}>
-
-          {/* Sound */}
-          <TouchableOpacity style={styles.smallButton}>
-            <Text style={styles.buttonText}>sound</Text>
+          {/* Sound Toggle */}
+          <TouchableOpacity style={styles.smallButton} onPress={toggleSound}>
+            <Text style={styles.buttonText}>{isPlaying ? "mute" : "sound"}</Text>
           </TouchableOpacity>
 
           {/* Shop */}
-          <TouchableOpacity style={styles.smallButton} 
-          onPress={() => navigation.navigate("Shop")}
-          >
+          <TouchableOpacity style={styles.smallButton} onPress={() => navigation.navigate("Shop")}>
             <Text style={styles.buttonText}>shop</Text>
           </TouchableOpacity>
         </View>
@@ -50,7 +70,7 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    resizeMode: "cover", // ensures image covers the entire screen
+    resizeMode: "cover",
   },
   container: {
     flex: 1,
@@ -68,14 +88,14 @@ const styles = StyleSheet.create({
     paddingTop: 100,
   },
   playButton: {
-    backgroundColor: "#6a79c4",
+    backgroundColor: "#7086C1",
     paddingVertical: 12,
     paddingHorizontal: 50,
     borderRadius: 20,
     marginBottom: 20,
   },
   breatheButton: {
-    backgroundColor: "#6a79c4",
+    backgroundColor: "#7086C1",
     paddingVertical: 12,
     paddingHorizontal: 38,
     borderRadius: 20,
@@ -92,7 +112,7 @@ const styles = StyleSheet.create({
     gap: 20,
   },
   smallButton: {
-    backgroundColor: "#6a79c4",
+    backgroundColor: "#7086C1",
     width: 60,
     height: 60,
     borderRadius: 30,

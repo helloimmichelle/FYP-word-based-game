@@ -66,10 +66,10 @@ const ZenMode = () => {
         // Find possible words
         findPossibleWords(randomWord);
       } else {
-        Alert.alert("Error", "No suitable words found.");
+        Alert.alert("error", "no suitable words found");
       }
     } catch (error) {
-      Alert.alert("Error", "Failed to fetch words.");
+      Alert.alert("error", "failed to fetch words");
     }
   };
 
@@ -90,7 +90,7 @@ const ZenMode = () => {
       setFoundWords([]);
       setCurrentSelection("");
     } catch (error) {
-      console.error("Error fetching words:", error);
+      console.error("error fetching words:", error);
     }
   };
 
@@ -121,9 +121,9 @@ const ZenMode = () => {
   // Handle word submission (when user finishes selecting letters)
   const handleWordSubmit = () => {
     const selectedWord = currentSelection.toUpperCase(); // Ensure uppercase
-    console.log("Selected Word:", selectedWord);
-    console.log("Words to Find:", wordsToFind);
-    console.log("Found Words:", foundWords);
+    console.log("selected word:", selectedWord);
+    console.log("words to find:", wordsToFind);
+    console.log("found words:", foundWords);
 
     if (wordsToFind.includes(selectedWord) && !foundWords.includes(selectedWord)) {
       console.log("Word is valid and not already found.");
@@ -132,12 +132,12 @@ const ZenMode = () => {
 
       // Check if all words are found
       if (foundWords.length + 1 === wordsToFind.length) {
-        Alert.alert("Level cleared!");
+        Alert.alert("level cleared");
         setLevel((prev) => prev + 1);
       }
     } else {
       console.log("Word is invalid or already found.");
-      Alert.alert("Invalid Word", "The selected letters do not form a valid word.");
+      Alert.alert("invalid word", "the selected letters do not form a valid word");
       setCurrentSelection("");
     }
   };
@@ -170,9 +170,6 @@ const ZenMode = () => {
         </TouchableOpacity>
         <TouchableOpacity>
           <Text style={styles.icon}></Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.coinsButton}>
-          <Text style={styles.coinsText}>$ coins</Text>
         </TouchableOpacity>
       </View>
 
@@ -226,16 +223,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 20,
-  },
-  coinsButton: {
-    backgroundColor: "#6a79c4",
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-    borderRadius: 15,
-  },
-  coinsText: {
-    color: "white",
-    fontWeight: "bold",
   },
   levelText: {
     fontSize: 18,
