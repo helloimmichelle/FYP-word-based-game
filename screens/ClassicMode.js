@@ -11,11 +11,11 @@ const levels = [
   { word: "QUIET", wordsToFind: ["QUIET", "QUE", "TIE", "QUI","QUIT", "QUITE"], minWordsToPass: 3 }, 
   { word: "CLOUD", wordsToFind: ["CLOUD", "CUD", ,"LOUD", "OLD", "COD", "COLD", "DOC"], minWordsToPass: 3 }, 
   { word: "SHINE", wordsToFind: ["SHINE", "HEN", "HIS", "SHE","HENS", "HINES", "SHIN", "SIN"], minWordsToPass: 4 }, 
-  { word: "SMILE", wordsToFind: ["SMILE", "SLIME", "MILES", "MILE", "LIME", "SLIM", "SIM", "LIE", "MIL", "ELM"], minWordsToPass: 4 }, 
+  { word: "SMILE", wordsToFind: ["SMILE", "SLIME", "MILES", "MILE", "LIME", "LIMES", "SLIM", "SIM", "LIE", "MIL", "ELM"], minWordsToPass: 4 }, 
   { word: "PEACE", wordsToFind: ["PEACE", "PEA", "ACE", "APE", "CAP", "PEE", "PAC", "CAPE", "PACE"], minWordsToPass: 5 }, 
   { word: "FLORA", wordsToFind: ["FLORA", "FOR", "FAR", "OAR", "OAF", "FAR", "LOAF", "FOAL", "ORAL"], minWordsToPass: 5}, 
   { word: "STARS", wordsToFind: ["STARS", "STAR", "ART", "ARTS", "SAT", "RAT", "RATS", "TAR", "SAR", "RATS", "TARS", "SASS"], minWordsToPass: 6 }, 
-  { word: "PLANT", wordsToFind: ["PLANT", "ANT", "TAN","PAN", "LAP", "PAL", "PANT", "PAT", "TAP", "PLAN", "PANT","ALT"], minWordsToPass: 6 }, 
+  { word: "PLANT", wordsToFind: ["PLANT", "ANT", "TAN","PAN", "LAP", "PAL", "PANT", "PAT", "TAP", "NAP", "PLAN", "PANT","ALT"], minWordsToPass: 6 }, 
   { word: "CLEAR", wordsToFind: ["CLEAR", "CAR", "EAR","ARC", "ARE", "ACE", "ALE", "EARL", "ERA", "REC", "CARE", "LACE", "RACE", "REAL", "ACRE"], minWordsToPass: 7 }, 
   { word: "DREAM", wordsToFind: ["DREAM", "DARE", "DAME", "READ", "MARE", "MADE", "DEAR", "MEAD", "RED", "RAM","DAM", "MAD", "ARM", "ARE"], minWordsToPass: 8 }, 
 ];
@@ -121,13 +121,13 @@ const ClassicMode = () => {
       ]);
     } else {
       Alert.alert(
-        "all levels complete",
+        "game completed",
         "how would you like to be more at ease?",
         [
           { text: "play again", onPress: () => restartGame() },
-          { text: "homescreen", onPress: () => navigateTo("HomeScreen") },
-          { text: "select mode", onPress: () => navigateTo("ModeSelect") },
-          { text: "breathe", onPress: () => navigateTo("BreatheTimer") },
+          { text: "homescreen", onPress: () => navigation.navigate("Home") },
+          { text: "select mode", onPress: () => navigation.navigate("Mode")},
+          { text: "breathe", onPress: () => navigation.navigate("Timer") },
         ]
       );
     }

@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     width: screenWidth * 0.9, // Use 90% of screen width
   },
   wordBox: {
-    backgroundColor: "#C6E3C8",
+    backgroundColor: "#CFE4FE",
     padding: 10,
     margin: 5,
     borderRadius: 5,

@@ -5,6 +5,7 @@ import { PanGestureHandler, State } from "react-native-gesture-handler";
 
 const LetterArrangementZ = ({ letters, onLetterSelect, targetWord }) => {
   const [selectedLetters, setSelectedLetters] = useState([]); // Track selected letters
+    const [dragging, setDragging] = useState(false); // Track dragging state
   const radius = 100;
   const centerX = 150;
   const centerY = 150;
@@ -23,6 +24,13 @@ const LetterArrangementZ = ({ letters, onLetterSelect, targetWord }) => {
     };
   });
 
+  const findLetterIndex = (x, y) => {
+    return positions.findIndex((pos) => {
+      const dx = x - pos.x;
+      const dy = y - pos.y;
+      return Math.sqrt(dx * dx + dy * dy) < 20;
+    });
+  };
   const handleGesture = (event) => {
     const { x, y } = event.nativeEvent;
 
@@ -39,16 +47,18 @@ const LetterArrangementZ = ({ letters, onLetterSelect, targetWord }) => {
     });
   };
 
-  const handleGestureStateChange = (event) => {
-    if (event.nativeEvent.state === State.END) {
-      // Check if selected word matches targetWord
-      const formedWord = selectedLetters.join("");
-      // if (formedWord === targetWord) {
-      //   alert("Level cleared!");
-      // } else {
-      //   alert("Try again!");
-      // }
-      setSelectedLetters([]); // Reset selection after attempt
+const handleGestureStateChange = (event) => {
+    const { x, y, state } = event.nativeEvent;
+
+    if (state === State.BEGAN) {
+      const index = findLetterIndex(x, y);
+      if (index !== -1) {
+        setSelectedLetters([letters[index]]); // Start with only this letter so no double input
+        onLetterSelect(letters[index]);
+        setDragging(true);
+      }
+    } else if (state === State.END) {
+      setDragging(false);
     }
   };
 
@@ -59,27 +69,30 @@ const LetterArrangementZ = ({ letters, onLetterSelect, targetWord }) => {
     >
       <View style={styles.container}>
         <Svg height="300" width="300">
-          {/* Draw lines between selected letters */}
-          {selectedLetters.map((_, index) => {
-            if (index < selectedLetters.length - 1) {
-              const currentPos = positions[letters.indexOf(selectedLetters[index])];
-              const nextPos = positions[letters.indexOf(selectedLetters[index + 1])];
-
-              return (
-                <Line
-                  key={index}
-                  x1={currentPos.x}
-                  y1={currentPos.y}
-                  x2={nextPos.x}
-                  y2={nextPos.y}
-                  stroke="blue"
-                  strokeWidth="2"
-                />
-              );
-            }
-            return null;
-          })}
-        </Svg>
+            {selectedLetters.map((_, index) => {
+              if (index < selectedLetters.length - 1) {
+                const currentIndex = letters.indexOf(selectedLetters[index]);
+                const nextIndex = letters.indexOf(selectedLetters[index + 1]);
+      
+                // Prevent accessing undefined positions
+                if (currentIndex === -1 || nextIndex === -1) return null;
+                if (!positions[currentIndex] || !positions[nextIndex]) return null;
+      
+                return (
+                  <Line
+                    key={index}
+                    x1={positions[currentIndex].x}
+                    y1={positions[currentIndex].y}
+                    x2={positions[nextIndex].x}
+                    y2={positions[nextIndex].y}
+                    stroke="white"
+                    strokeWidth="2"
+                  />
+                );
+              }
+              return null;
+            })}
+          </Svg>
 
         {/* Display letters in a circle */}
         {positions.map((pos, index) => (

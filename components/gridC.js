@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   gridWord: {
     fontSize: 18,
     fontWeight: "bold",
-    backgroundColor: "#fff",
+    backgroundColor: "#CFE4FE",
     paddingVertical: 5,
     paddingHorizontal: 10, // Dynamic padding for different word lengths
     margin: 4,

@@ -7,24 +7,32 @@ const logoImage = require("../assets/logo.jpg");
 
 const HomeScreen = ({ navigation }) => {
   const [sound, setSound] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   useEffect(() => {
+    let isMounted = true; // Track if component is still mounted
+
+    const loadSound = async () => {
+      const { sound } = await Audio.Sound.createAsync(
+        require("../assets/11pm-acnl.mp3"),
+        { isLooping: true }
+      );
+
+      if (isMounted) {
+        setSound(sound);
+        await sound.playAsync(); // Auto-play when loaded
+      }
+    };
+
     loadSound();
+
     return () => {
+      isMounted = false;
       if (sound) {
         sound.unloadAsync();
       }
     };
   }, []);
-
-  const loadSound = async () => {
-    const { sound } = await Audio.Sound.createAsync(
-      require("../assets/11pm-acnl.mp3"), // Add music file
-      { isLooping: true }
-    );
-    setSound(sound);
-  };
 
   const toggleSound = async () => { //Toggle sound playing 
     if (sound) {

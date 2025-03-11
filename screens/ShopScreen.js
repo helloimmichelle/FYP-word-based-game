@@ -99,7 +99,7 @@ const ShopScreen = () => {
         
         {/* Reset Background Button */}
         <TouchableOpacity style={styles.resetButton} onPress={resetBackground}>
-          <Text style={styles.buttonText}>reset to background</Text>
+          <Text style={styles.buttonText}>reset default background</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
@@ -141,24 +141,24 @@ const styles = StyleSheet.create({
     left: 30,
   },
   buyButton: {
-    backgroundColor: "green",
+    backgroundColor: "#7086C1",
     padding: 10,
     paddingHorizontal: 12,
     borderRadius: 20,
   },
   applyButton: {
-    backgroundColor: "blue",
+    backgroundColor: "#C6E3C8",
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 15,
   },
   applied: {
     backgroundColor: "gray",
   },
   resetButton: {
-    backgroundColor: "red",
+    backgroundColor: "#d21f3c",
     padding: 10,
     marginTop: 20,
-    borderRadius: 5,
+    borderRadius: 15,
   },
   buttonText: {
     color: "white",
