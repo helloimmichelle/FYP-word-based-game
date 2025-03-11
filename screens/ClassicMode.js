@@ -85,6 +85,8 @@ const ClassicMode = () => {
     }
   };
 
+  
+
   const handleWordSubmit = () => {
     const currentLevel = levels[level];
   
