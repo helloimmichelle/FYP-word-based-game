@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { getCoins, updateCoins } from "../data/CoinStorage";
 import { getOwnedBackgrounds, addOwnedBackground, setSelectedBackground, getSelectedBackground } from "../data/BackgroundStorage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const defaultBackground = require("../assets/title-screen-bg.jpg"); // Set default background file
 const backgroundImage = require("../assets/title-screen-bg.jpg"); // Add custom background image
@@ -59,9 +60,12 @@ const ShopScreen = () => {
   };
 
   const resetBackground = async () => {
-    await setSelectedBackground(null);
-    setSelectedBackgroundState(defaultBackground); // Set to default background
-    Alert.alert("background reset", "your background has been reset to default");
+    try {
+      await AsyncStorage.removeItem("selectedBackground"); // Remove stored background
+      Alert.alert("success", "background has been set to default");
+    } catch (error) {
+      console.log("Error resetting background:", error);
+    }
   };
 
   return (

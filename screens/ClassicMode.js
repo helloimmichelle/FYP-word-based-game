@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert, ImageBackground} from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LetterArrangementC from "../components/LetterArrangmentC";
@@ -47,6 +47,25 @@ const ClassicMode = () => {
     };
     loadBackground();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const loadBackground = async () => {
+        try {
+          const selectedBg = await AsyncStorage.getItem("selectedBackground");
+          if (selectedBg) {
+            setBackground(getBackgroundImage(selectedBg));
+          } else {
+            setBackground(require("../assets/title-screen-bg.jpg")); // Default background
+          }
+        } catch (error) {
+          console.log("Error loading background:", error);
+        }
+      };
+  
+      loadBackground();
+    }, [])
+  );
 
   useEffect(() => {
     // Load coins from storage when the game starts
