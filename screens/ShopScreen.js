@@ -47,7 +47,7 @@ const ShopScreen = () => {
       setOwnedBackgrounds([...ownedBackgrounds, bg.id]);
       Alert.alert("success", "background purchased");
     } else {
-      Alert.alert("not nnough coins", "play more to earn coins");
+      Alert.alert("not enough coins", "play more to earn coins");
     }
   };
 

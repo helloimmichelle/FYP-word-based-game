@@ -192,7 +192,7 @@ const ZenMode = () => {
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.levelText}>Level {level}</Text>
+      <Text style={styles.levelText}>level {level}</Text>
 
       {/* Word Grid */}
       <WordGrid wordsToFind={wordsToFind} foundWords={foundWords} />
@@ -208,13 +208,13 @@ const ZenMode = () => {
       {/* Bottom Buttons */}
       <View style={styles.bottomButtons}>
         <TouchableOpacity style={styles.smallButton} onPress={() => setLetters(shuffleArray(letters))}>
-          <Text style={styles.buttonText}>Shuffle</Text>
+          <Text style={styles.buttonText}>shuffle</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.smallButton} onPress={handleWordSubmit}>
-          <Text style={styles.buttonText}>Submit</Text>
+          <Text style={styles.buttonText}>submit</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.smallButton} onPress={handleReset}>
-          <Text style={styles.buttonText}>Reset</Text>
+          <Text style={styles.buttonText}>reset</Text>
         </TouchableOpacity>
       </View>
     </View>
