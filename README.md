@@ -1,7 +1,7 @@
 ## About
 Word-based game for Final Year Project. It combines gameplay with elements of mindfulness.
 
-![photo_2025-03-18_02-25-03](https://github.com/user-attachments/assets/3d2b867c-7e5d-4628-b0e3-c8dfc7e857eb) 
+![photo_2025-03-18_02-25-03](https://github.com/user-attachments/assets/a7f141c6-8531-4c5b-91eb-b84bfb9e68b0)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
