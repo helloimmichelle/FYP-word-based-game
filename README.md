@@ -5,12 +5,12 @@ Word-based game for Final Year Project. It combines gameplay with elements of mi
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Built With
+## Built With
 * React.js
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Installation
+## Installation
 1. Clone the repo
    ```sh
    git clone https://github.com/helloimmichelle/FYP-word-based-game.git
